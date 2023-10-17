@@ -55,6 +55,19 @@ public class CongViecService {
     public List<CONGVIEC> getCongviecByLuong(BigDecimal minSalary, BigDecimal maxSalary) {
         return congviecrepo.getCongViecByLuongRange(minSalary, maxSalary);
     }
+
+    // lấy danh sách công việc theo tên chuyên ngành
+    public List<CONGVIEC> getCongViecByChuyenNganh(String tenChuyenNganh)
+    {
+        return congviecrepo.getCongViecByChuyenNganh(tenChuyenNganh);
+    }
+
+    // lấy danh sách công việc theo tên công việc, địa chỉ, tên Chuyên Ngành, mức lương
+    public List<CONGVIEC> getCongViecByTenAndDiaChiAndChuyenNganhAndLuong(String tenCongViec, Long diachiId, String tenChuyenNganh, BigDecimal minLuong, BigDecimal maxLuong)
+    {
+        return congviecrepo.getCongViecByTenAndDiaChiAndChuyenNganhAndLuong(tenCongViec, diachiId, tenChuyenNganh, minLuong, maxLuong);
+    }
+
     public List<CONGVIEC> getCongViecByTenCViec(String tenCViec) {
         return congviecrepo.GetByTenCViec(tenCViec);
     }
@@ -66,6 +79,8 @@ public class CongViecService {
     // public List<CongViecResult> getUngTuyenResults(Long userId) {
     //     return congviecrepo.checkUngTuyen(userId);
     // }
+
+    // tim kiem cong viec theo ten, luong va dia chi
 
     public void updateJobStatusBasedOnExpiry() {
         List<CONGVIEC> jobs = congviecrepo.findAll();

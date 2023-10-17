@@ -102,9 +102,16 @@ public class CVController {
                 }
                 if (cv.getVitriUngTuyen() != null) {
                     updateCV.setVitriUngTuyen(cv.getVitriUngTuyen());
+                }if(cv.getDiemGPA() != null)
+                {
+                    updateCV.setDiemGPA(cv.getDiemGPA());
+                }
+                if(cv.getDiemTOEIC() != null)
+                {
+                    updateCV.setDiemTOEIC(cv.getDiemTOEIC());
                 }
                 cvService.updateCV(id, updateCV);
-                APIResponse response = new APIResponse(true, updateCV, "ok");
+                APIResponse response = new APIResponse(true, updateCV, "UPDATE CV SUCCESS");
                 return response;
             }
         }

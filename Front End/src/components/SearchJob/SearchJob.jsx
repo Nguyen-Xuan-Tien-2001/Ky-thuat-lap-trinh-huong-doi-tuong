@@ -73,7 +73,7 @@ export const SearchJob = ({ GetAllCongViecRefetch }) => {
           <Form.Label>
             <FontAwesomeIcon icon={faSearch} size="1x" color="black" id="searchIcon" />
           </Form.Label>
-          <Form.Control onChange={handleChange} name='TenCViec' type="text" placeholder="Phân tích nghiệp vụ" />
+          <Form.Control onChange={handleChange} name='TenCViec' type="text" placeholder="Công việc cần tìm kiếm" />
         </Form.Group>
         <div>
           <Form.Label>

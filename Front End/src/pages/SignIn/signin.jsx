@@ -7,9 +7,11 @@ import { LoginService } from '../../ApiServices/AuthService/loginService';
 
 const SignIn = () => {
 
-    const [validate,setValidate] = useState(false);
+    const [validate, setValidate] = useState(false);
+    const [username, setUsername] = useState(false);
+
     const [formData, setFormData] = useState({
-        email: "",
+        username: "",
         password: "",
     });
 
@@ -37,16 +39,33 @@ const SignIn = () => {
     }, [loginResponse])
 
     const handleOnSubmit = (e) => {
-        if(validate){
-            e.preventDefault();
-            callLoginRefetch(formData);
+        e.preventDefault();
+        if(formData.username === '' || formData.password === ''){
+           setValidate(true);
+           setUsername(true);
         }
-
+        else{
+            if (!validate && !username) {
+                console.log(validate);
+                callLoginRefetch(formData);
+            }
+        }
     }
+    const handleChangeUserName = (e) => {
+        if (e.target.value.length === 0) {
+            setUsername(true);
+        } else {
+            setFormData((prevState) => ({
+                ...prevState,
+                [e.target.name]: e.target.value,
+            }));
+            setUsername(false);
+        }
+    };
     const handleChange = (e) => {
-        if(e.target.value.length < 6){
+        if (e.target.value.length < 6) {
             setValidate(true);
-        }else{
+        } else {
             setFormData((prevState) => ({
                 ...prevState,
                 [e.target.name]: e.target.value,
@@ -57,19 +76,21 @@ const SignIn = () => {
     return (
         <div className='background-Login'>
             <div className='signin-layout'>
-                <Form onSubmit={handleOnSubmit}>
+                <Form>
                     <h3>Đăng nhập Fiverr</h3>
                     <Form.Group className="mb-3" >
                         <Form.Label>Username</Form.Label>
-                        <Form.Control onChange={handleChange} name='username' type="text" placeholder="Nhập Username" />
+                        <Form.Control onChange={handleChangeUserName} name='username' type="text" placeholder="Nhập Username" />
+                        {username ? <span style={{ color: 'red' }} >Username không được để trống !!!</ span> : ''}
+                    
                     </Form.Group>
                     <Form.Group className="mb-3">
                         <Form.Label>Mật khẩu</Form.Label>
                         <Form.Control onChange={handleChange} name='password' type="password" placeholder="Mật khẩu" />
-                        {validate? <span style={{color:'red'}} >Mật khẩu tối thiểu 6 ký tự !!!</ span> : ''}
+                        {validate ? <span style={{ color: 'red' }} >Mật khẩu tối thiểu 6 ký tự !!!</ span> : ''}
                     </Form.Group>
-                    <Form.Label><a style={{color:'white'}} href='/QuenMatKhau'>Quên Mật khẩu</a></Form.Label>
-                    <Button type='submit' variant='success' className='SignIn--btn' size='md' block='true'>Đăng nhập</Button>
+                    <Form.Label><a style={{ color: 'white' }} href='/QuenMatKhau'>Quên Mật khẩu</a></Form.Label>
+                    <Button onClick={handleOnSubmit} type='submit' variant='success' className='SignIn--btn' size='md' block='true'>Đăng nhập</Button>
                 </Form>
             </div>
         </div>

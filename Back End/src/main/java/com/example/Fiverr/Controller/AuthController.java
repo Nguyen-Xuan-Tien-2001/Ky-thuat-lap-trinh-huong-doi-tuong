@@ -72,10 +72,10 @@ public class AuthController {
         try {
             // Tạo tài khoản người dùng
             userService.createUser(user);
-            APIResponse response = new APIResponse(true, user, "Tao tai khoan thành công");
+            APIResponse response = new APIResponse(true, user, "REGISTER SUCCESS!");
             return response;
         } catch (IllegalArgumentException e) {
-            APIResponse response = new APIResponse(false, null, "Tai khoan da ton tai");
+            APIResponse response = new APIResponse(false, null, "REGISTER FAILED! USERNAME OR EMAIL ALREADY USED!");
             return response;
         }
     }
@@ -101,11 +101,11 @@ public class AuthController {
                 }
             }
             Users user = userService.getUserByName(username);
-            APIResponse response = new APIResponse(true, user, "Đăng nhập thành công");
+            APIResponse response = new APIResponse(true, user, "LOGIN SUCCESS!");
             return response;
         } catch (Exception e) {
             // Xử lý khi xác thực thất bại
-            APIResponse response = new APIResponse(false, null, "Đăng nhập thất bại");
+            APIResponse response = new APIResponse(false, null, "LOGIN FAILED. CHECK YOUR USERNAME OR PASSWORD AGAIN!");
             return response;
         }
     }

@@ -22,7 +22,7 @@ export const Products = ({ CongViec }) => {
   } else {
     dataConHan = dataConHan?.sort(function (a, b) { return a.luong - b.luong });
   }
-  console.log('dataconhan',dataConHan);
+  console.log('dataconhan', dataConHan);
   return (
     <>
       <Container>
@@ -42,7 +42,7 @@ export const Products = ({ CongViec }) => {
                 )
               })
                 :
-                <i>Không tìm thấy việc làm thích hợp!</i> 
+                <i>Không tìm thấy việc làm thích hợp!</i>
             }
 
           </div>

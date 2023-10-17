@@ -43,6 +43,7 @@ public class CongviecController {
         APIResponse response = new APIResponse(true, congviecService.getTenCtyByUserId(userId), "lay cong ty thanh cong");
         return response;
     }
+
     @GetMapping("/getcongviec/{CongviecId}")
     public APIResponse getCongviecById(@PathVariable Long CongviecId) {
         // List<GetCtyByIDRequest> result = congviecService.getTenCtyByUserId(userId);
@@ -50,34 +51,37 @@ public class CongviecController {
         APIResponse response = new APIResponse(true, congviecService.getCongViecById(CongviecId), "lay cong viec by id thanh cong");
         return response;
     }
+
     @GetMapping("/getall")
     public APIResponse getAllCongViec() {
         List<CONGVIEC> CongVieclist = congviecService.getAllCongViec();
         APIResponse response = new APIResponse(true, CongVieclist, "lấy danh sach cong viec thành công");
         return response;
     }
+
     @PostMapping("/them")
-    public APIResponse createCongViec(@RequestBody CONGVIEC congviec){
+    public APIResponse createCongViec(@RequestBody CONGVIEC congviec) {
         Date currentDate = new Date(System.currentTimeMillis());
         congviec.setNgayDang(currentDate);
         congviecService.createCongViec(congviec);
         APIResponse response = new APIResponse(true, congviec, "them cong viec thanh cong");
         return response;
     }
+
     @GetMapping("/byChinhanh")
     public APIResponse getCongViecCTYByChinhanh(@RequestParam Long chinhanhId) {
         List<Object[]> results = congviecService.getCongViecCTY(chinhanhId);
-        
+
         List<CongViecCtyRequest> dtos = new ArrayList<>();
         for (Object[] result : results) {
             CongViecCtyRequest dto = new CongViecCtyRequest();
-            dto.setCongviecId((BigInteger )result[0]);
+            dto.setCongviecId((BigInteger) result[0]);
             dto.setTenCty((String) result[1]);
             dto.setTenCV((String) result[2]);
             dto.setTenChuyenNganh((String) result[3]);
             dtos.add(dto);
         }
-        if (dtos.isEmpty()){
+        if (dtos.isEmpty()) {
             APIResponse response = new APIResponse(false, null, "cong ty tren khong co cong viec");
             return response;
         }
@@ -85,8 +89,9 @@ public class CongviecController {
         return response;
         // return dtos;
     }
-     @DeleteMapping("/xoa/{id}")
-    public APIResponse deleteCongViec(@PathVariable Long id){
+
+    @DeleteMapping("/xoa/{id}")
+    public APIResponse deleteCongViec(@PathVariable Long id) {
         congviecService.deleteCongViec(id);
         List<CONGVIEC> CongVieclist = congviecService.getAllCongViec();
         APIResponse response = new APIResponse(true, CongVieclist, "Xoa thành công");
@@ -106,49 +111,81 @@ public class CongviecController {
             @RequestParam(name = "minSalary") BigDecimal minSalary,
             @RequestParam(name = "maxSalary") BigDecimal maxSalary
     ) {
-        if(congviecService.getCongviecByLuong(minSalary, maxSalary).isEmpty())
-        {
+        if (congviecService.getCongviecByLuong(minSalary, maxSalary).isEmpty()) {
             APIResponse response = new APIResponse(false, null, "Khong co cong viec trong khoang luong nay");
-            return response; 
+            return response;
         }
         APIResponse response = new APIResponse(true, congviecService.getCongviecByLuong(minSalary, maxSalary), "Cong viec trong khoang luong tren");
         return response;
         // return congviecService.getCongviecByLuong(minSalary, maxSalary);
     }
 
+    // lấy danh sách công việc theo tên chuyên ngành
+    @GetMapping("/ChuyenNganh")
+    public APIResponse getCongViecByChuyenNganh(@RequestParam(name = "tenChuyenNganh") String tenChuyenNganh)
+    {
+        if(congviecService.getCongViecByChuyenNganh(tenChuyenNganh).isEmpty())
+        {
+            APIResponse response = new APIResponse(false, null, "Khong co cong viec theo chuyen nganh yeu cau");
+            return response;
+        }
+        APIResponse response = new APIResponse(true, congviecService.getCongViecByChuyenNganh(tenChuyenNganh), "Danh sach cong viec theo chuyen nganh");
+        return response;
+    }
+
+    // lấy danh sách công việc theo tên công việc, địa chỉ, tên Chuyên Ngành, mức lương
+    @GetMapping("/by-tenCV-diachi-tenChuyenNganh-luong")
+    public APIResponse getCongViecByTenAndDiaChiAndChuyenNganhAndLuong(@RequestParam(name = "tenCV") String tenCV,
+                                                                       @RequestParam(name = "idDiaChi") Long diachiId,
+                                                                       @RequestParam(name = "tenChuyenNganh") String tenChuyenNganh,
+                                                                       @RequestParam(name = "minLuong") BigDecimal minLuong,
+                                                                       @RequestParam(name = "maxLuong") BigDecimal maxLuong)
+    {
+        System.out.println(tenCV);
+        System.out.println(diachiId);
+        System.out.println(tenChuyenNganh);
+        System.out.println(minLuong);
+        System.out.println(maxLuong);
+        if(congviecService.getCongViecByTenAndDiaChiAndChuyenNganhAndLuong(tenCV, diachiId, tenChuyenNganh, minLuong, maxLuong).isEmpty())
+        {
+            APIResponse response = new APIResponse(false, null, "Khong co cong viec phu hop");
+            return response;
+        }
+        APIResponse response = new APIResponse(true, congviecService.getCongViecByTenAndDiaChiAndChuyenNganhAndLuong(tenCV, diachiId, tenChuyenNganh, minLuong, maxLuong), "Danh sach cong viec phu hop");
+        return response;
+    }
+
 
     @GetMapping("/congviec-by-tencviec")
     public APIResponse getCongViecByTenCViec(@RequestParam("tenCViec") String tenCViec) {
-        if(congviecService.getCongViecByTenCViec(tenCViec).isEmpty())
-        {
-            APIResponse response = new APIResponse(false, null, "Khong co cong viec trong khoang luong nay");
-            return response; 
+        if (congviecService.getCongViecByTenCViec(tenCViec).isEmpty()) {
+            APIResponse response = new APIResponse(false, null, "Không tìm thấy công việc theo tên");
+            return response;
         }
-        APIResponse response = new APIResponse(true, congviecService.getCongViecByTenCViec(tenCViec), "Xoa thành công");
+        APIResponse response = new APIResponse(true, congviecService.getCongViecByTenCViec(tenCViec), "Danh sách công việc theo tên");
         return response;
         // return congviecService.getCongViecByTenCViec(tenCViec);
     }
 
     @GetMapping("/congviec-by-diachi")
     public APIResponse getCongViecByDiachiId(@RequestParam("diachiId") int diachiId) {
-        if(congviecService.getCongViecByDiaChi(diachiId).isEmpty())
-        {
-            APIResponse response = new APIResponse(false, null, "Khong co cong viec trong khoang luong nay");
-            return response; 
+        if (congviecService.getCongViecByDiaChi(diachiId).isEmpty()) {
+            APIResponse response = new APIResponse(false, null, "Khong co cong viec tai dia chi nay");
+            return response;
         }
-        APIResponse response = new APIResponse(true, congviecService.getCongViecByDiaChi(diachiId), "Xoa thành công");
+        APIResponse response = new APIResponse(true, congviecService.getCongViecByDiaChi(diachiId), "Danh sach cong viec theo dia chi");
         return response;
         // return congviecService.getCongViecByDiaChi(diachiId);
     }
 
     @PutMapping("/sua/{id}")
     public APIResponse suaCV(@PathVariable long id, @RequestBody CONGVIEC congviec) {
-        try{
-        CONGVIEC updateCongViec = congviecService.getCongViecById(id);
-            if(updateCongViec==null) {
+        try {
+            CONGVIEC updateCongViec = congviecService.getCongViecById(id);
+            if (updateCongViec == null) {
                 APIResponse response = new APIResponse(false, null, "Cong Viec chua có");
                 return response;
-            }else {
+            } else {
                 if (congviec.getYeuCau() != null) {
                     updateCongViec.setYeuCau(congviec.getYeuCau());
                 }
@@ -171,11 +208,9 @@ public class CongviecController {
                 APIResponse response = new APIResponse(true, updateCongViec, "ok");
                 return response;
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             APIResponse response = new APIResponse(false, e, null);
             return response;
         }
-}
-
+    }
 }
