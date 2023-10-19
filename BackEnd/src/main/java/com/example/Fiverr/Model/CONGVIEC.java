@@ -48,4 +48,7 @@ public class CONGVIEC {
     @ManyToOne
     @JoinColumn(name = "MaCN")
     private CHINHANH chinhanh;
+
+    @Column(name = "Image")
+    private String image;
 }

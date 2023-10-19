@@ -6,56 +6,28 @@ import { useNavigate } from 'react-router'
 import { Select } from 'antd'
 
 import { GetAllChiNhanhService } from '../../ApiServices/GetDataApi/GetAllChiNhanh';
+import { GetAllChuyenNganhService } from '../../ApiServices/GetDataApi/GetAllChuyenNganh'
 
 
 import './SearchJob.css'
 
-export const SearchJob = ({ GetAllCongViecRefetch }) => {
+export const SearchJob = ({ handleDataSearch }) => {
   const { GetAllChiNhanhResponse, GetAllChiNhanhIsLoading, GetAllChiNhanhError, GetAllChiNhanhRefetch } = GetAllChiNhanhService()
+  const { GetAllChuyenNganhResponse, GetAllChuyenNganhIsLoading, GetAllChuyenNganhError, GetAllChuyenNganhRefetch } = GetAllChuyenNganhService();
 
-  const { Option } = Select;
-  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     TenCViec: "",
-    DiaChi: "",
+    DiaChi: 0,
     ChuyenNganh: "",
     Luong: "",
   });
 
+
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    if (formData.TenCViec !== "") {
-      navigate(`/user?tenCViec=${formData.TenCViec}`);
-    }
-    if (formData.DiaChi !== "") {
-      navigate(`/user?diachiId=${formData.DiaChi}`);
-    }
-    if (formData.Luong !== "") {
-      if (formData.Luong === "1") {
-        navigate(`/user?minSalary=0&maxSalary=100`);
-      }
-      else if (formData.Luong === "2") {
-        navigate(`/user?minSalary=100&maxSalary=1000`);
-      }
-      else if (formData.Luong === "3") {
-        navigate(`/user?minSalary=1000&maxSalary=2000`);
-      }
-      else if (formData.Luong === "4") {
-        navigate(`/user?minSalary=2000&maxSalary=999999`);
-      }
-      else {
-        navigate(`/user?minSalary=0&maxSalary=999999`);
-      }
-
-    }
-    // GetAllCongViecRefetch();
-    setFormData({
-      TenCViec: "",
-      DiaChi: "",
-      ChuyenNganh: "",
-      Luong: "",
-    })
+    handleDataSearch(formData);
+  
   }
   const handleChange = (e) => {
     setFormData((prevState) => ({
@@ -95,10 +67,14 @@ export const SearchJob = ({ GetAllCongViecRefetch }) => {
             <FontAwesomeIcon icon={faTruckRampBox} size="1x" color="black" id="searchIcon" />
           </Form.Label>
           <Form.Select name='ChuyenNganh' onChange={handleChange} aria-label="ChuyenNganh">
-            <option value="0">Tất cả ngành nghề</option>
-            <option value="1">Front End Developer</option>
-            <option value="2">Back End Developer</option>
-            <option value="3">Marketing</option>
+            <option value="">Tất cả ngành nghề</option>
+            {
+              GetAllChuyenNganhResponse ? GetAllChuyenNganhResponse?.data?.map((data) => {
+                return (
+                  <option value={data.id}>{data.tenChuyenNganh}</option>
+                )
+              }) : ''
+            }
           </Form.Select>
         </div>
         <div>

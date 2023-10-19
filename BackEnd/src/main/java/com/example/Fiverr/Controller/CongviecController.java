@@ -141,17 +141,12 @@ public class CongviecController {
                                                                        @RequestParam(name = "minLuong") BigDecimal minLuong,
                                                                        @RequestParam(name = "maxLuong") BigDecimal maxLuong)
     {
-        System.out.println(tenCV);
-        System.out.println(diachiId);
-        System.out.println(tenChuyenNganh);
-        System.out.println(minLuong);
-        System.out.println(maxLuong);
         if(congviecService.getCongViecByTenAndDiaChiAndChuyenNganhAndLuong(tenCV, diachiId, tenChuyenNganh, minLuong, maxLuong).isEmpty())
         {
-            APIResponse response = new APIResponse(false, null, "Khong co cong viec phu hop");
+            APIResponse response = new APIResponse(false, null, "NO JOBS MATCHING THE SEARCH INFORMATION!");
             return response;
         }
-        APIResponse response = new APIResponse(true, congviecService.getCongViecByTenAndDiaChiAndChuyenNganhAndLuong(tenCV, diachiId, tenChuyenNganh, minLuong, maxLuong), "Danh sach cong viec phu hop");
+        APIResponse response = new APIResponse(true, congviecService.getCongViecByTenAndDiaChiAndChuyenNganhAndLuong(tenCV, diachiId, tenChuyenNganh, minLuong, maxLuong), "SUITABLE JOB LIST!");
         return response;
     }
 

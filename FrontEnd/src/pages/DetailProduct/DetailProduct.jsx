@@ -141,7 +141,7 @@ const DetailProduct = () => {
               </div>
             </div>
             <div className="imageGigDetail">
-              <img src={ExamImgGig} alt="ExamImgGig" />
+              <img src={GetCongViecByIDResponse.data.image} alt="ExamImgGig" />
             </div>
             <div className="ContentGig">
               <h4 className="Content_Title">Mô Tả Công Việc</h4>
