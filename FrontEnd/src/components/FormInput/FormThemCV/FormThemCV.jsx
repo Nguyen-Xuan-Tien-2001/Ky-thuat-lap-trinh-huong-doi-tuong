@@ -54,6 +54,8 @@ const FormThemCV = () => {
             chungChi: data.chungChi, 
             project: data.project, 
             kinhNghiem: data.kinhNghiem, 
+            diemGPA:data.diemGPA,
+            diemTOEIC:data.diemTOEIC,
             user:{
                 "id": iduser
             }
@@ -75,29 +77,30 @@ const FormThemCV = () => {
                         {errors.email && <span>Email không được trống</span>}
 
                         <label htmlFor="">Họ</label>
-                        <input {...register("ho")} />
+                        <input {...register("ho",{ required: true })} />
+                        {errors.ho && <span>Họ không được để trống!</span>}
 
                         <label htmlFor="">Tên</label>
-                        <input {...register("ten")} />
+                        <input {...register("ten",{ required: true })} />
+                        {errors.ten && <span>Tên không được để trống!</span>}
 
-                        <label htmlFor="">Giới tính</label>
-                        <select {...register("gioiTinh")} >
-                            <option defaultChecked value="Nam">Nam</option>
-                            <option value="Nữ">Nữ</option>
-                        </select>
 
                         <label htmlFor="">Ngày sinh</label>
                         <input type='date' {...register("ngaySinh", { required: true })} />
-                        {errors.ngaySinh && <span>Ngày sinh không được để trống</span>}
+                        {errors.ngaySinh && <span>Ngày sinh không được để trống!</span>}
 
                         <label htmlFor="">Địa chỉ</label>
-                        <input {...register("diaChi")} />
+                        <input {...register("diaChi",{ required: true })} />
+                        {errors.diaChi && <span>Địa chỉ không được để trống!</span>}
 
                         <label htmlFor="">Số điện thoại:</label>
-                        <input {...register("soDT")} />
+                        <input {...register("soDT",{ required: true })} />
+                        {errors.soDT && <span>Số điện thoại không được để trống!</span>}
 
                         <label htmlFor="">Căn cước công dân</label>
-                        <input {...register("cccd")} />
+                        <input {...register("cccd",{ required: true })} />
+                        {errors.cccd && <span>CCCD/CMND không được để trống!</span>}
+
 
                         <label htmlFor="">Học vấn</label>
                         <input {...register("hocVan", { required: true })} />
@@ -111,6 +114,10 @@ const FormThemCV = () => {
                         <input {...register("chuyenMon", { required: true })} />
                         {errors.chuyenMon && <span>Vui lòng điền kỹ năng chuyên môn</span>}
 
+                        <label htmlFor="">Điểm GPA</label>
+                        <input {...register("diemGPA", { required: true })} />
+                        {errors.diemGPA && <span>Vui lòng điền điểm GPA</span>}
+
                         <label htmlFor="">Vị trí ứng tuyển</label>
                         <input {...register("vitriUngTuyen", { required: true })} />
                         {errors.vitriUngTuyen && <span>Vui lòng nhập vị trí ứng tuyển</span>}
@@ -123,13 +130,17 @@ const FormThemCV = () => {
                         <input type='textarea' {...register("chungChi", { required: true })} />
                         {errors.chungChi && <span>Vui lòng nhập chứng chỉ đạt được</span>}
 
+                        <label htmlFor="">Điểm TOEIC</label>
+                        <input {...register("diemTOEIC", { required: true })} />
+                        {errors.diemTOEIC && <span>Vui lòng điền điểm TOEIC</span>}
+
                         <label htmlFor="">Dự án thực tế</label>
                         <input type='textarea' {...register("project", { required: true })} />
                         {errors.project && <span>Vui lòng nhập Dự án thực tế</span>}
 
                         <label htmlFor="">Kinh nghiệm</label>
                         <input type='textarea' {...register("kinhNghiem", { required: true })} />
-                        {errors.kinhNghiem && <span>Vui lòng nhập kinh nghiệm thực chiến</span>}
+                        {errors.kinhNghiem && <div><span>Vui lòng nhập kinh nghiệm thực chiến</span></div>}
 
 
                         <Button onClick={handleCancle} className='BtnCancelInformation' type="cancel" > Hủy </Button>

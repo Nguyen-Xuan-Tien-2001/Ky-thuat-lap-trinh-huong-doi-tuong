@@ -51,4 +51,10 @@ public class CONGVIEC {
 
     @Column(name = "Image")
     private String image;
+
+    @Column(name = "diemGPA")
+    private Float diemGPA;
+
+    @Column(name = "diemTOEIC")
+    private Float diemTOEIC;
 }
