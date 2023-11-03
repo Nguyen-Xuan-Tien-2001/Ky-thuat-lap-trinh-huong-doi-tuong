@@ -3,10 +3,10 @@ import { Table } from 'antd';
 
 
 
-const TableCustom = ({columns, data}) => {
+const TableCustom = ({ columns, data,onClickRow }) => {
     return (
         <>
-            <Table columns={columns} dataSource={data} />
+            <Table onRow={onClickRow} columns={columns} dataSource={data} />
         </>
     )
 };

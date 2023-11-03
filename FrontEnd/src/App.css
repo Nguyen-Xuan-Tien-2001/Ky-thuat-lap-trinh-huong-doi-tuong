@@ -400,3 +400,14 @@ li a svg{
   margin-right: 10px;
   background-color: white !important;
 }
+
+.Sort_List_UngVien{
+  display: flex;
+  justify-content: flex-end;
+  padding: 10px;
+  align-items: center;
+  gap: 10px;
+}
+.Sort_List_UngVien > div{
+  width: 200px;
+}

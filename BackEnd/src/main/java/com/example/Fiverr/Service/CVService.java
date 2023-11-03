@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.Fiverr.Model.CV;
 import com.example.Fiverr.Repository.CVRepository;
+import com.example.Fiverr.Response.APIResponse;
 
 @Service
 public class CVService {
@@ -35,5 +36,13 @@ public class CVService {
 
     public List<CV> getAllCVByUserId(Long userId) {
         return cvRepository.findByUserId(userId);
+    }
+
+    // lấy CV của 1 ứng tuyển
+    public APIResponse getCVByUngTuyen(Long ungtuyenId)
+    {
+        CV cvUngTuyen = cvRepository.findCVByUngTuyenId(ungtuyenId);
+        APIResponse response = new APIResponse(true, cvUngTuyen, "CV ứng viên");
+        return response;
     }
 }
